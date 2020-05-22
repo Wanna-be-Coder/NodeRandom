@@ -10,16 +10,18 @@ const dbConnection = mysql.createPool({
   database: "nodejs_login", // MYSQL DB NAME
 });
 
-router.get("/result", function (req, res) {
+router.get("/result/:id", async function (req, res) {
   abcdef = req.query;
-  var sqlstr = "SELECT * FROM `subject` WHERE `subject_name`='abcd'";
+  var id = req.params.id;
+  console.log(id);
+  var sqlstr = `SELECT * FROM subject WHERE subject_name='${id}'`;
   // var sqlstr2 = JSON.stringify(abcdef);
   // var b = sqlstr2.replace(/[^a-zA-Z]/g, " ");
   // var c = '"' + b.trim() + '"';
   // var d = sqlstr + c;
   // console.log(abcdef);
   dbConnection.execute(sqlstr, function (err, rows, fields) {
-    //.then(([rows]) => {
+    // //.then(([rows]) => {
     var value = [];
     // rows.forEach(function (row) {
     //   value.push({
@@ -29,6 +31,7 @@ router.get("/result", function (req, res) {
     //     pdf: row.pdf,
     //   });
     // });
+    console.log(rows);
     res.render("result", {
       value: rows,
       //}//,function(err, result){
